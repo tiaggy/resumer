@@ -89,6 +89,18 @@
 
       <aside class="sidebar-col">
         <section class="card sidebar-card">
+          <h2>Photo</h2>
+          <div class="photo-picker">
+            <div id="photo-preview" class="photo-preview" aria-label="Resume photo preview"></div>
+            <div class="photo-actions">
+              <label for="photo-input" class="photo-choose-btn">Choose Photo</label>
+              <input id="photo-input" type="file" accept="image/*" hidden />
+              <button id="photo-clear-btn" type="button" class="btn-secondary" hidden>Clear</button>
+            </div>
+            <p id="photo-hint" class="muted">No photo selected — falls back to profile photo.</p>
+          </div>
+        </section>
+        <section class="card sidebar-card">
           <h2>Quick Copy</h2>
           <div id="quick-copy" class="quick-copy"></div>
         </section>

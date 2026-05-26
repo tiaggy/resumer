@@ -87,6 +87,9 @@ def create_app() -> Flask:
         master_prompt = str(payload.get("master_prompt") or "")
         language = str(payload.get("language") or "Always English")
         overrides = payload.get("overrides") if isinstance(payload.get("overrides"), dict) else {}
+        photo_override = payload.get("photo")
+        if not isinstance(photo_override, str) or not photo_override.startswith("data:image/"):
+            photo_override = ""
         if len(job_description) < MIN_JOB_DESCRIPTION_CHARS:
             return jsonify(
                 {
@@ -151,7 +154,10 @@ def create_app() -> Flask:
         cover_path = OUTPUTS_DIR / f"{basename}_cover_letter.txt"
         data_path = OUTPUTS_DIR / f"{basename}_data.json"
 
-        html = render_resume_html(profile=cfg.profile, resume=data["resume"])
+        render_profile = dict(cfg.profile)
+        if photo_override:
+            render_profile["photo"] = photo_override
+        html = render_resume_html(profile=render_profile, resume=data["resume"])
         save_html(html, html_path)
         # Convenience copy for previewing the latest run.
         save_html(html, OUTPUTS_DIR / "latest_resume.html")

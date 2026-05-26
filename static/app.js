@@ -13,10 +13,18 @@ const el = {
   coverCard: document.getElementById("cover-card"),
   coverLetter: document.getElementById("cover-letter"),
   toast: document.getElementById("toast"),
+  photoInput: document.getElementById("photo-input"),
+  photoPreview: document.getElementById("photo-preview"),
+  photoClearBtn: document.getElementById("photo-clear-btn"),
+  photoHint: document.getElementById("photo-hint"),
 };
+
+const PHOTO_STORAGE_KEY = "resumer.photo_data_url";
+const PHOTO_MAX_BYTES = 4 * 1024 * 1024; // 4 MB raw file cap
 
 let state = {
   result: null,
+  photoDataUrl: "",
 };
 
 function setStatus(text, kind) {
@@ -127,6 +135,7 @@ async function generate() {
         master_prompt: masterPrompt,
         language: language,
         overrides,
+        photo: state.photoDataUrl || "",
       }),
     });
     const data = await res.json();
@@ -328,8 +337,58 @@ el.generateBtn.addEventListener("click", generate);
       const el3 = document.getElementById("language");
       if (el3) el3.value = lang;
     }
+    const photo = localStorage.getItem(PHOTO_STORAGE_KEY);
+    if (photo) setPhotoDataUrl(photo);
   } catch {}
 })();
+
+function setPhotoDataUrl(dataUrl) {
+  state.photoDataUrl = dataUrl || "";
+  if (state.photoDataUrl) {
+    el.photoPreview.style.backgroundImage = `url("${state.photoDataUrl}")`;
+    el.photoClearBtn.hidden = false;
+    el.photoHint.textContent = "Photo will be used in the resume.";
+  } else {
+    el.photoPreview.style.backgroundImage = "";
+    el.photoClearBtn.hidden = true;
+    el.photoHint.textContent = "No photo selected — falls back to profile photo.";
+  }
+}
+
+el.photoInput.addEventListener("change", () => {
+  const file = el.photoInput.files && el.photoInput.files[0];
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    showToast("Not an image file");
+    el.photoInput.value = "";
+    return;
+  }
+  if (file.size > PHOTO_MAX_BYTES) {
+    showToast("Photo too large (max 4 MB)");
+    el.photoInput.value = "";
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const dataUrl = String(reader.result || "");
+    setPhotoDataUrl(dataUrl);
+    try {
+      localStorage.setItem(PHOTO_STORAGE_KEY, dataUrl);
+    } catch {
+      showToast("Photo saved for this session only");
+    }
+  };
+  reader.onerror = () => showToast("Could not read photo");
+  reader.readAsDataURL(file);
+});
+
+el.photoClearBtn.addEventListener("click", () => {
+  setPhotoDataUrl("");
+  el.photoInput.value = "";
+  try {
+    localStorage.removeItem(PHOTO_STORAGE_KEY);
+  } catch {}
+});
 
 fetchProfile();
 updateGenerateState();

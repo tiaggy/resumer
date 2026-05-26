@@ -319,6 +319,53 @@ button:disabled {
   font-size: 13px;
 }
 
+.photo-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.photo-preview {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #eef0f4 center/cover no-repeat;
+  border: 1px solid var(--border);
+}
+
+.photo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.photo-choose-btn {
+  display: inline-block;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.photo-choose-btn:hover {
+  background: #f0f3f9;
+}
+
+#photo-hint {
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+}
+
 .quick-copy {
   display: flex;
   flex-direction: column;
