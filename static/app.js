@@ -20,7 +20,9 @@ const el = {
 };
 
 const PHOTO_STORAGE_KEY = "resumer.photo_data_url";
-const PHOTO_MAX_BYTES = 4 * 1024 * 1024; // 4 MB raw file cap
+const PHOTO_MAX_BYTES = 12 * 1024 * 1024; // 12 MB raw file cap (downscaled in-browser)
+const PHOTO_MAX_SIDE = 512;                // px — portrait slot is ~170 px at 96dpi
+const PHOTO_JPEG_QUALITY = 0.88;
 
 let state = {
   result: null,
@@ -355,7 +357,25 @@ function setPhotoDataUrl(dataUrl) {
   }
 }
 
-el.photoInput.addEventListener("change", () => {
+async function downscaleImageToDataUrl(file) {
+  const bitmap = await createImageBitmap(file);
+  try {
+    const longest = Math.max(bitmap.width, bitmap.height);
+    const scale = longest > PHOTO_MAX_SIDE ? PHOTO_MAX_SIDE / longest : 1;
+    const w = Math.max(1, Math.round(bitmap.width * scale));
+    const h = Math.max(1, Math.round(bitmap.height * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(bitmap, 0, 0, w, h);
+    return canvas.toDataURL("image/jpeg", PHOTO_JPEG_QUALITY);
+  } finally {
+    if (typeof bitmap.close === "function") bitmap.close();
+  }
+}
+
+el.photoInput.addEventListener("change", async () => {
   const file = el.photoInput.files && el.photoInput.files[0];
   if (!file) return;
   if (!file.type.startsWith("image/")) {
@@ -364,22 +384,21 @@ el.photoInput.addEventListener("change", () => {
     return;
   }
   if (file.size > PHOTO_MAX_BYTES) {
-    showToast("Photo too large (max 4 MB)");
+    showToast("Photo too large (max 12 MB)");
     el.photoInput.value = "";
     return;
   }
-  const reader = new FileReader();
-  reader.onload = () => {
-    const dataUrl = String(reader.result || "");
+  try {
+    const dataUrl = await downscaleImageToDataUrl(file);
     setPhotoDataUrl(dataUrl);
     try {
       localStorage.setItem(PHOTO_STORAGE_KEY, dataUrl);
     } catch {
-      showToast("Photo saved for this session only");
+      showToast("Photo kept for this session only");
     }
-  };
-  reader.onerror = () => showToast("Could not read photo");
-  reader.readAsDataURL(file);
+  } catch {
+    showToast("Could not read photo");
+  }
 });
 
 el.photoClearBtn.addEventListener("click", () => {
