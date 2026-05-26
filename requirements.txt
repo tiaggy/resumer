@@ -1,0 +1,6 @@
+flask>=3.0
+jinja2>=3.1
+openai>=1.40
+python-dotenv>=1.0
+pydantic>=2.8
+pyinstaller>=6.15

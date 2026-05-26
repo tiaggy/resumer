@@ -1,0 +1,10 @@
+{
+  "max_tokens": 8000,
+  "temperature": 0,
+  "language_mode": "always_english",
+  "auto_open_pdf": true,
+  "output_dir": "outputs",
+  "pdf_engine": "edge_or_chrome",
+  "response_format_mode": "json_object",
+  "reasoning_effort": null
+}

@@ -1,0 +1,379 @@
+:root {
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --border: #e3e6eb;
+  --text: #1a1d22;
+  --muted: #6b7380;
+  --accent: #2f6bff;
+  --accent-hover: #1f54d6;
+  --danger: #c0392b;
+  --warn-bg: #fff8e1;
+  --warn-border: #ffd966;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.shell {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 16px 64px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 16px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+.main-col {
+  min-width: 0;
+}
+
+.main-col .card {
+  margin-top: 0;
+}
+
+.main-col .card + .card {
+  margin-top: 16px;
+}
+
+.sidebar-col {
+  position: sticky;
+  top: 16px;
+}
+
+.sidebar-card {
+  margin-top: 0;
+}
+
+@media (max-width: 880px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .sidebar-col {
+    position: static;
+  }
+}
+
+header h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-top: 16px;
+  box-shadow: 0 1px 2px rgba(20, 30, 60, 0.04);
+}
+
+.card h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 13.5px;
+  min-height: 220px;
+}
+
+textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.inline-label {
+  display: inline-block;
+  font-weight: 600;
+  margin: 0;
+  font-size: 13px;
+}
+
+.inline-input {
+  flex: 0 1 220px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.inline-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+#master-prompt {
+  min-height: 100px;
+}
+
+.overrides {
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: #fafbfd;
+}
+
+.overrides > summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13.5px;
+  list-style: none;
+  padding: 2px 0;
+}
+
+.overrides > summary::-webkit-details-marker { display: none; }
+
+.overrides > summary::before {
+  content: "▸";
+  display: inline-block;
+  width: 14px;
+  color: var(--muted);
+  transition: transform 120ms ease;
+}
+
+.overrides[open] > summary::before { transform: rotate(90deg); }
+
+.override-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 14px;
+  margin-top: 12px;
+}
+
+.override-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.override-grid label.full { grid-column: 1 / -1; }
+
+.override-grid input,
+.override-grid textarea {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+.override-grid textarea { resize: vertical; min-height: 60px; }
+
+.override-grid input:focus,
+.override-grid textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+button {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+button:hover:not(:disabled) {
+  background: #f0f3f9;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+#generate-btn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  font-weight: 600;
+}
+
+#generate-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+/* PDF action — solid dark, stands out as the “produce final artifact” action */
+.btn-pdf {
+  background: #1a1d22;
+  border-color: #1a1d22;
+  color: #fff;
+}
+
+.btn-pdf:hover:not(:disabled) {
+  background: #2e3138;
+  border-color: #2e3138;
+}
+
+/* Copy — soft blue tint, distinct from PDF/primary */
+.btn-copy {
+  background: #eef3ff;
+  border-color: #d6e2ff;
+  color: #1f3fa0;
+}
+
+.btn-copy:hover:not(:disabled) {
+  background: #dde7ff;
+  border-color: #b9caf7;
+}
+
+/* Secondary — subtle neutral for navigation actions (Open HTML, Open Folder) */
+.btn-secondary {
+  background: #f5f6f8;
+  border-color: #e3e6eb;
+  color: #1a1d22;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #ebeef3;
+  border-color: #d6dae0;
+}
+
+.status {
+  margin: 12px 0 0;
+  color: var(--muted);
+}
+
+.status.is-error {
+  color: var(--danger);
+}
+
+.status.is-done {
+  color: #1a7f37;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.warnings {
+  margin: 12px 0 0;
+  padding: 0 0 0 20px;
+}
+
+.warnings li {
+  background: var(--warn-bg);
+  border-left: 3px solid var(--warn-border);
+  list-style: none;
+  margin: 6px 0;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.quick-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-card .quick-copy button {
+  width: 100%;
+}
+
+.quick-copy button {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+}
+
+.quick-copy button .label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.quick-copy button .value {
+  font-size: 13.5px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: #fafbfd;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  margin: 0;
+  font-family: inherit;
+  font-size: 13.5px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1d22;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  z-index: 10;
+}

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Resumer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <h1>Resumer</h1>
+      <p class="muted">Adapt your resume to a job description in one click.</p>
+    </header>
+
+    <div class="layout">
+      <div class="main-col">
+        <section class="card">
+          <label for="master-prompt">Master Prompt <span class="muted">(highest priority — overrides everything)</span></label>
+          <textarea
+            id="master-prompt"
+            rows="6"
+            placeholder="Put your hard rules here: real work history, dates, things to never invent, tone, etc."
+          ></textarea>
+
+          <div class="row" style="margin-top:14px;">
+            <label for="language" class="inline-label">Language</label>
+            <input
+              type="text"
+              id="language"
+              class="inline-input"
+              value="Always English"
+            />
+          </div>
+
+          <label for="job-description" style="margin-top:14px;">Job Description</label>
+          <textarea
+            id="job-description"
+            rows="14"
+            placeholder="Paste the full vacancy text here..."
+          ></textarea>
+
+          <details class="overrides">
+            <summary>Manual overrides <span class="muted">(filled fields skip AI generation entirely)</span></summary>
+            <div class="override-grid">
+              <label>Company name<input id="ovr-company_name" type="text" /></label>
+              <label>Role title<input id="ovr-role_title" type="text" /></label>
+              <label>File-name slug<input id="ovr-file_name_slug" type="text" placeholder="company-role-dashed" /></label>
+
+              <label class="full">Headline<input id="ovr-headline" type="text" /></label>
+              <label class="full">Summary / About Me<textarea id="ovr-summary" rows="3"></textarea></label>
+
+              <label class="full">Skills <span class="muted">(one per line, max 9)</span><textarea id="ovr-skills" rows="5"></textarea></label>
+              <label class="full">Languages <span class="muted">(Name - Level, one per line)</span><textarea id="ovr-languages" rows="4" placeholder="English - B2&#10;Slovak - B2"></textarea></label>
+              <label class="full">Education <span class="muted">(Dates | Degree | School, one per line)</span><textarea id="ovr-education" rows="3" placeholder="2018 – 2022 | Bachelor of Design | University Name"></textarea></label>
+              <label class="full">Experience <span class="muted">(JSON array; expert use)</span><textarea id="ovr-experience" rows="6" placeholder='[{"company":"Acme","title":"Designer","location":"Remote","dates":"2024 – Present","bullets":["..."],"core_skills":["..."]}]'></textarea></label>
+
+              <label class="full">Cover-letter subject<input id="ovr-cover_subject" type="text" /></label>
+              <label class="full">Cover-letter body<textarea id="ovr-cover_body" rows="8"></textarea></label>
+            </div>
+          </details>
+
+          <div class="row">
+            <button id="generate-btn" type="button" disabled>Generate Tailored Resume</button>
+            <span id="char-count" class="muted">0 chars</span>
+          </div>
+          <p id="status" class="status">Ready</p>
+        </section>
+
+        <section class="card" id="result-card" hidden>
+          <h2>Result</h2>
+          <div class="actions">
+            <button data-action="generate-resume-pdf" type="button" class="btn-pdf" disabled>Generate PDF</button>
+            <button data-action="open-html" type="button" class="btn-secondary" disabled>Open HTML</button>
+            <button data-action="open-folder" type="button" class="btn-secondary">Open Folder</button>
+          </div>
+          <ul id="warnings" class="warnings"></ul>
+        </section>
+
+        <section class="card" id="cover-card" hidden>
+          <h2>Cover Letter</h2>
+          <pre id="cover-letter"></pre>
+          <div class="actions" style="margin-top:12px;">
+            <button data-action="copy-cover" type="button" class="btn-copy">Copy</button>
+            <button data-action="generate-cover-pdf" type="button" class="btn-pdf">Generate PDF</button>
+          </div>
+        </section>
+      </div>
+
+      <aside class="sidebar-col">
+        <section class="card sidebar-card">
+          <h2>Quick Copy</h2>
+          <div id="quick-copy" class="quick-copy"></div>
+        </section>
+      </aside>
+    </div>
+  </main>
+  <div id="toast" class="toast" hidden></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

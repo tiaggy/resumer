@@ -1,0 +1,21 @@
+MASTER_PROMPT (HIGHEST PRIORITY — overrides every other instruction below):
+{master_prompt}
+
+LANGUAGE (overrides any language hint in JOB_DESCRIPTION or SETTINGS):
+{language}
+
+{locked_fields_block}
+
+SETTINGS:
+{settings_json}
+
+PROFILE:
+{profile_json}
+
+LIMITS:
+{limits_json}
+
+JOB_DESCRIPTION:
+{job_description}
+
+REMINDER: Output exactly one JSON object matching the schema. No prose, no recommendations, no questions, no markdown. Start your response with `{{` and end with `}}`. If the match is weak, surface it inside quality_check, not as prose. MASTER_PROMPT wins over every other block; LANGUAGE wins over SETTINGS.language_mode.

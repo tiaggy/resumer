@@ -1,0 +1,22 @@
+Acme is hiring a Product Designer to lead the design of our AI-powered analytics platform. You will collaborate closely with engineers and product managers to shape end-to-end user flows, design clear and information-dense dashboards, and prototype AI-assisted interactions for both technical and non-technical audiences.
+
+Responsibilities
+- Own the design of new product features from discovery through launch.
+- Run user research and synthesize findings into actionable design decisions.
+- Build high-fidelity prototypes in Figma to validate flows before engineering.
+- Define and evolve the design system used across web and embedded surfaces.
+- Partner with engineering to ensure shipped experiences match the intent.
+
+Requirements
+- 4+ years of product design experience in B2B SaaS, ideally with data-heavy products.
+- Strong portfolio showing end-to-end product work, not just UI polish.
+- Hands-on with Figma, FigJam, prototyping tools, and modern design systems.
+- Comfortable working with AI features (LLMs, agents, copilots) and grounding them in real user needs.
+- Excellent written communication and ability to drive alignment across functions.
+
+Nice to have
+- Experience with developer tools, observability, or analytics products.
+- Background working with founders in early-stage environments.
+- Familiarity with conversion-focused design and growth experimentation.
+
+We are a fully remote team across Europe and North America.
